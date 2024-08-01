@@ -14,10 +14,14 @@ public class movement : MonoBehaviour
     public float rotationSpeed = 1.0f;
     public Sprite jump_image;
     public Sprite run_image;
+    bool isDashAvailable = false;
     private SpriteRenderer image;
+    private Rigidbody2D rb;
+    private bool isCrouching = false;
 
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
     void Start()
     {
@@ -27,26 +31,54 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    float horizontalAxis = Input.GetAxis("Horizontal");
-    float verticalAxis = Input.GetAxis("Vertical");
+    movementUpdate();
+    specialKeysUpdate();
+    }
+    private void movementUpdate() {
+        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxis("Vertical");
 
-    Vector2 movement = new Vector2(horizontalAxis, verticalAxis);
-    float magnitude = Mathf.Clamp01(movement.magnitude);
-    movement.Normalize();
+        Vector2 movement = new Vector2(horizontalAxis, verticalAxis);
+        float magnitude = Mathf.Clamp01(movement.magnitude);
+        movement.Normalize();
 
-    transform.Translate(movement * speed * magnitude * Time.deltaTime, Space.World);
+        transform.Translate(movement * speed * magnitude * Time.deltaTime, Space.World);
 
-    if(movement != Vector2.zero) {
-        Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movement);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        if(movement != Vector2.zero) {
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movement);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
-    if(Input.GetKeyDown(KeyCode.Z)) {
+    private void crouch () {
+            if(!isCrouching) {
+                isCrouching = true;
+                speed = 2f;
+                rotationSpeed = 100f;
+                image.sprite = jump_image;
+                return;
+            }
+            if(isCrouching) {
+                isCrouching = false;
+                speed = 5f;
+                rotationSpeed = 500f;
+                image.sprite = run_image;
+                return;
+            }
+    }
+    private void specialKeysUpdate() {
+        if(Input.GetKeyDown(KeyCode.X)) {
+            crouch();
+        }
+        if(Input.GetKey(KeyCode.C) && isDashAvailable) {
+            StartCoroutine(Dash());
+        }
+    }
+    private IEnumerator Dash() {
+        isDashAvailable = false;
+        transform.Translate(Vector3.forward * 100f);
         image.sprite = jump_image;
-    } if(Input.GetKeyUp(KeyCode.Z)) {
-        image.sprite = run_image;
-    }
-
+        yield return new WaitForSeconds(.1f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
