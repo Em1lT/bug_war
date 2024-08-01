@@ -11,12 +11,13 @@ public class movement : MonoBehaviour
     public PointSpawner spawner;
     public float turnSpeed = 1.0f;
     public Score score;
-
-    private Rigidbody2D rb;
-    // Start is called before the first frame update
+    public float rotationSpeed = 1.0f;
+    public Sprite jump_image;
+    public Sprite run_image;
+    private SpriteRenderer image;
 
     void Awake() {
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        image = gameObject.GetComponent<SpriteRenderer>();
     }
     void Start()
     {
@@ -28,8 +29,23 @@ public class movement : MonoBehaviour
     {
     float horizontalAxis = Input.GetAxis("Horizontal");
     float verticalAxis = Input.GetAxis("Vertical");
-    transform.position += Vector3.right * horizontalAxis * turnSpeed * 0.01f;
 
+    Vector2 movement = new Vector2(horizontalAxis, verticalAxis);
+    float magnitude = Mathf.Clamp01(movement.magnitude);
+    movement.Normalize();
+
+    transform.Translate(movement * speed * magnitude * Time.deltaTime, Space.World);
+
+    if(movement != Vector2.zero) {
+        Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movement);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    if(Input.GetKeyDown(KeyCode.Z)) {
+        image.sprite = jump_image;
+    } if(Input.GetKeyUp(KeyCode.Z)) {
+        image.sprite = run_image;
+    }
 
     }
 
