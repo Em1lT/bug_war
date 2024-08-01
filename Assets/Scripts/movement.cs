@@ -19,6 +19,8 @@ public class movement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isCrouching = false;
 
+    public GameObject objectToSpawn;
+
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -66,12 +68,18 @@ public class movement : MonoBehaviour
                 return;
             }
     }
+    private void Shoot() {
+        GameObject gameObject = Instantiate(objectToSpawn, transform.position, transform.rotation);       
+    }
     private void specialKeysUpdate() {
         if(Input.GetKeyDown(KeyCode.X)) {
             crouch();
         }
         if(Input.GetKey(KeyCode.C) && isDashAvailable) {
             StartCoroutine(Dash());
+        }
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            Shoot();
         }
     }
     private IEnumerator Dash() {

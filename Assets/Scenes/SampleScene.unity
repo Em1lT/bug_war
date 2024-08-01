@@ -663,6 +663,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 512277046}
     - target: {fileID: 4631172559677355549, guid: de37c7f1f7178445ab115c250b45a3ac, type: 3}
+      propertyPath: objectToSpawn
+      value: 
+      objectReference: {fileID: 6532921896503305545, guid: 7d9b4de4f6b5041049cc4693f6e16eda, type: 3}
+    - target: {fileID: 4631172559677355549, guid: de37c7f1f7178445ab115c250b45a3ac, type: 3}
       propertyPath: rotationSpeed
       value: 500
       objectReference: {fileID: 0}
