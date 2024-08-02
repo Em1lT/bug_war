@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class movement : MonoBehaviour
@@ -16,14 +14,14 @@ public class movement : MonoBehaviour
     public Sprite run_image;
     bool isDashAvailable = false;
     private SpriteRenderer image;
-    private Rigidbody2D rb;
+    private Animation anim;
     private bool isCrouching = false;
 
     public GameObject objectToSpawn;
 
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        anim = gameObject.GetComponent<Animation>();
     }
     void Start()
     {
@@ -56,15 +54,16 @@ public class movement : MonoBehaviour
             if(!isCrouching) {
                 isCrouching = true;
                 speed = 2f;
+                anim.Play("crawl");
                 rotationSpeed = 100f;
-                image.sprite = jump_image;
+                // image.sprite = jump_image;
                 return;
             }
             if(isCrouching) {
                 isCrouching = false;
                 speed = 5f;
                 rotationSpeed = 500f;
-                image.sprite = run_image;
+                // image.sprite = run_image;
                 return;
             }
     }
