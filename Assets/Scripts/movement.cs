@@ -12,12 +12,13 @@ public class movement : MonoBehaviour
     public float rotationSpeed = 1.0f;
     public Sprite jump_image;
     public Sprite run_image;
+
+    public float health = 100;
     bool isDashAvailable = false;
     private SpriteRenderer image;
     private Animation anim;
     private bool isCrouching = false;
 
-    public GameObject objectToSpawn;
 
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
@@ -68,18 +69,12 @@ public class movement : MonoBehaviour
                 return;
             }
     }
-    private void Shoot() {
-        GameObject gameObject = Instantiate(objectToSpawn, transform.position, transform.rotation);       
-    }
     private void specialKeysUpdate() {
         if(Input.GetKeyDown(KeyCode.X)) {
             crouch();
         }
         if(Input.GetKey(KeyCode.C) && isDashAvailable) {
             StartCoroutine(Dash());
-        }
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            Shoot();
         }
     }
     private IEnumerator Dash() {
@@ -89,11 +84,23 @@ public class movement : MonoBehaviour
         yield return new WaitForSeconds(.1f);
     }
 
+    private IEnumerator Invincible() {
+        isDashAvailable = false;
+        transform.Translate(Vector3.forward * 100f);
+        image.sprite = jump_image;
+        yield return new WaitForSeconds(1f);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Point")) {
             score.AddScore(1);
             spawner.DestroyPoint();
+            Destroy(other.gameObject);
+        }
+        if (other.CompareTag("Enemy")) {
+            health -= 10;
+            // StartCoroutine(Invincible());
             Destroy(other.gameObject);
         }
     }

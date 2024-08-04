@@ -6,6 +6,7 @@ public class enemy : MonoBehaviour
 {
 
     public GameObject player;
+    public BloodSpawner bloodSpawner;
 
     public float health = 100f;
 
@@ -16,30 +17,40 @@ public class enemy : MonoBehaviour
 
     public float rotationSpeed = 1.0f;
 
-    public float speed = 1.0f;
+    private float speed;
+    public bool isDeath = false;
+
     // Start is called before the first frame update
     void Start()
     {
     }
 
     void Awake() {
+        speed = Random.Range(0.5f, 1.5f);
         player = GameObject.FindGameObjectWithTag("Player");
         image = gameObject.GetComponent<SpriteRenderer>();
+        bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
     }
 
     // Update is called once per frame
     void Update()
     {
-            // transform.rotation = Quaternion.FromToRotation(player.transform.rotation, transform.rotation, rotationSpeed * Time.deltaTime);
+        if(!isDeath) {        
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position,  Time.deltaTime);
+            // transform.forward = Vector3.RotateTowards(transform.position, player.transform.position, speed * Time.deltaTime, 1f);
+        }
     }
 
     private void Death () {
         // play death animation
+        if(!isDeath) {
         speed = 0f;
+        isDeath = true;
         image.sprite = death_image;
-
-        Destroy(gameObject, 10);
+        bloodSpawner.SpawnBlood(transform.position);
+        Destroy(gameObject, 5);
         // destroy enemy
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -53,7 +64,7 @@ public class enemy : MonoBehaviour
                 // Switch to bloody sprite
                 image.sprite = bloody_image;
             }
-            // destroy bullet
+            // destroy bullet. could be moved to bullet script but saves one trigger call
             Destroy(other.gameObject,0.05f);
         }
     }

@@ -33,7 +33,11 @@ public class PointSpawner : MonoBehaviour
             Random.Range(minPosition.z, maxPosition.z)
         );
         // get random object to spawn
-        GameObject gameObject = Instantiate(objectToSpawns[Random.Range(0, objectToSpawns.Length)], randomPosition, Quaternion.identity);
+        GameObject gameObject = Instantiate(
+            objectToSpawns[Random.Range(0, objectToSpawns.Length)],
+            randomPosition,
+            Quaternion.Euler(0, 0, Random.Range(0, 360))
+        );
         // gameObjects.Add(gameObject);
     }
     }
