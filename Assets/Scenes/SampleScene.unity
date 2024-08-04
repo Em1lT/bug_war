@@ -182,6 +182,18 @@ PrefabInstance:
       propertyPath: currentPoints
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3270209238758051023, guid: 7ca1cd8092c364fc7ab30aeae2b82200, type: 3}
+      propertyPath: objectToSpawns.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270209238758051023, guid: 7ca1cd8092c364fc7ab30aeae2b82200, type: 3}
+      propertyPath: objectToSpawns.Array.data[0]
+      value: 
+      objectReference: {fileID: 6642859944581013546, guid: 74cb8597c84e949799dac2b35e12bea9, type: 3}
+    - target: {fileID: 3270209238758051023, guid: 7ca1cd8092c364fc7ab30aeae2b82200, type: 3}
+      propertyPath: objectToSpawns.Array.data[1]
+      value: 
+      objectReference: {fileID: 7670854202177383648, guid: 9249d3255a0c1471bb0d10d3802fc5f9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ca1cd8092c364fc7ab30aeae2b82200, type: 3}
 --- !u!114 &512277046 stripped

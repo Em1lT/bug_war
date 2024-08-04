@@ -5,8 +5,7 @@ using UnityEngine;
 public class PointSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject objectToSpawn;
-    public List<GameObject> gameObjects;
+    public GameObject[] objectToSpawns;
     public int maxPoints = 2;
     public float  spawnRate = 3.0f;
     public float  repeatRate = 1.0f;
@@ -16,8 +15,6 @@ public class PointSpawner : MonoBehaviour
     public Vector3 maxPosition;
     void Start()
     {
-        // TODO: not working 
-        gameObjects = new List<GameObject>(maxPoints);
         InvokeRepeating("SpawnPoints", spawnRate, repeatRate);
     }
 
@@ -35,7 +32,8 @@ public class PointSpawner : MonoBehaviour
             Random.Range(minPosition.y, maxPosition.y),
             Random.Range(minPosition.z, maxPosition.z)
         );
-        GameObject gameObject = Instantiate(objectToSpawn, randomPosition, Quaternion.identity);       
+        // get random object to spawn
+        GameObject gameObject = Instantiate(objectToSpawns[Random.Range(0, objectToSpawns.Length)], randomPosition, Quaternion.identity);
         // gameObjects.Add(gameObject);
     }
     }
