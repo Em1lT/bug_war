@@ -6,7 +6,7 @@ public class PointSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject[] objectToSpawns;
-    public int maxPoints = 2;
+    public int maxPoints = 10;
     public float  spawnRate = 3.0f;
     public float  repeatRate = 1.0f;
     

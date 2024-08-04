@@ -54,16 +54,17 @@ public class movement : MonoBehaviour
             if(!isCrouching) {
                 isCrouching = true;
                 speed = 2f;
-                anim.Play("crawl");
+                // anim.Stop("crawl");
                 rotationSpeed = 100f;
-                // image.sprite = jump_image;
+                image.sprite = jump_image;
                 return;
             }
             if(isCrouching) {
                 isCrouching = false;
                 speed = 5f;
+                // anim.Play("crawl");
                 rotationSpeed = 500f;
-                // image.sprite = run_image;
+                image.sprite = run_image;
                 return;
             }
     }
