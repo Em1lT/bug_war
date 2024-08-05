@@ -13,16 +13,34 @@ public class movement : MonoBehaviour
     public Sprite jump_image;
     public Sprite run_image;
 
+    public AudioSource audioSource;
+
     public float health = 100;
     bool isDashAvailable = false;
     private SpriteRenderer image;
-    private Animation anim;
+    private Animator animator;
     private bool isCrouching = false;
+    public AudioClip hurtSound;
 
+    private enum AnimationStates {
+        idle,
+        dash,
+        crawl
+    }
+
+    private AnimationStates currentState;
+
+    void ChangeAnimationState(AnimationStates newState) {
+        if(currentState == newState) return;
+        animator.Play(newState.ToString());
+        currentState = newState;
+    }
 
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
-        anim = gameObject.GetComponent<Animation>();
+        animator = gameObject.GetComponent<Animator>();
+        animator.Play(AnimationStates.idle.ToString());
+        audioSource = GetComponent<AudioSource>();
     }
     void Start()
     {
@@ -54,18 +72,20 @@ public class movement : MonoBehaviour
     private void crouch () {
             if(!isCrouching) {
                 isCrouching = true;
+                // image.sprite = jump_image;
+                ChangeAnimationState(AnimationStates.crawl);
                 speed = 2f;
                 // anim.Stop("crawl");
                 rotationSpeed = 100f;
-                image.sprite = jump_image;
                 return;
             }
             if(isCrouching) {
                 isCrouching = false;
                 speed = 5f;
                 // anim.Play("crawl");
+                ChangeAnimationState(AnimationStates.idle);
                 rotationSpeed = 500f;
-                image.sprite = run_image;
+                // image.sprite = run_image;
                 return;
             }
     }
@@ -100,6 +120,7 @@ public class movement : MonoBehaviour
         }
         if (other.CompareTag("Enemy")) {
             health -= 10;
+            audioSource.PlayOneShot(hurtSound);
             // StartCoroutine(Invincible());
             Destroy(other.gameObject);
         }
