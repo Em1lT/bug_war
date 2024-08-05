@@ -24,11 +24,10 @@ public class movement : MonoBehaviour
 
     private enum AnimationStates {
         idle,
-        dash,
         crawl
     }
 
-    private AnimationStates currentState;
+    private AnimationStates currentState = AnimationStates.idle;
 
     void ChangeAnimationState(AnimationStates newState) {
         if(currentState == newState) return;
@@ -120,8 +119,9 @@ public class movement : MonoBehaviour
         }
         if (other.CompareTag("Enemy")) {
             health -= 10;
-            audioSource.PlayOneShot(hurtSound);
-            // StartCoroutine(Invincible());
+            if(!audioSource.isPlaying) {
+                audioSource.PlayOneShot(hurtSound);
+            }
             Destroy(other.gameObject);
         }
     }

@@ -20,15 +20,30 @@ public class enemy : MonoBehaviour
     private float speed;
     public bool isDeath = false;
 
+    private Animator animator;
+
+    private AnimationStates currentState = AnimationStates.bug_crawl;
+
     // Start is called before the first frame update
     void Start()
     {
+    }
+
+    private enum AnimationStates {
+        bug_crawl
+    }
+    void ChangeAnimationState(AnimationStates newState) {
+        if(currentState == newState) return;
+        animator.Play(newState.ToString());
+        currentState = newState;
     }
 
     void Awake() {
         speed = Random.Range(0.5f, 1.5f);
         player = GameObject.FindGameObjectWithTag("Player");
         image = gameObject.GetComponent<SpriteRenderer>();
+        animator = gameObject.GetComponent<Animator>();
+        animator.Play(AnimationStates.bug_crawl.ToString());
         bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
     }
 
