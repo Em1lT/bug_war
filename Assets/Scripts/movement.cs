@@ -76,20 +76,19 @@ public class movement : MonoBehaviour
     private void crouch () {
             if(!isCrouching) {
                 isCrouching = true;
-                // image.sprite = jump_image;
+                image.sprite = jump_image;
                 ChangeAnimationState(AnimationStates.crawl);
+                animator.enabled = false;
                 speed = 2f;
-                // anim.Stop("crawl");
                 rotationSpeed = 100f;
                 return;
             }
             if(isCrouching) {
                 isCrouching = false;
                 speed = 5f;
-                // anim.Play("crawl");
+                image.sprite = run_image;
                 ChangeAnimationState(AnimationStates.idle);
                 rotationSpeed = 500f;
-                // image.sprite = run_image;
                 return;
             }
     }
