@@ -21,6 +21,11 @@ public class movement : MonoBehaviour
     private Animator animator;
     private bool isCrouching = false;
     public AudioClip hurtSound;
+    public float dashSpeed = 20f;      // The speed of the dash
+    public float dashDuration = 0.2f;  // How long the dash lasts
+    private Rigidbody2D rb;
+    private bool isDashing = false;
+    private float dashTime;
 
     private enum AnimationStates {
         idle,
@@ -92,22 +97,42 @@ public class movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.X)) {
             crouch();
         }
-        if(Input.GetKey(KeyCode.C) && isDashAvailable) {
-            StartCoroutine(Dash());
+       if (Input.GetKeyDown(KeyCode.C) && !isDashing)
+        {
+            StartDash();
+        }
+
+        if (isDashing)
+        {
+            dashTime -= Time.deltaTime;
+            if (dashTime <= 0)
+            {
+                EndDash();
+            }
         }
     }
-    private IEnumerator Dash() {
-        isDashAvailable = false;
-        transform.Translate(Vector3.forward * 100f);
-        image.sprite = jump_image;
-        yield return new WaitForSeconds(.1f);
+    private IEnumerator Invincible() {
+        // isDashAvailable = false;
+        // transform.Translate(Vector3.forward * 100f);
+        yield return new WaitForSeconds(10f);
+        // image.sprite = jump_image;
+    }
+    void StartDash()
+    {
+        isDashing = true;
+        dashTime = dashDuration;
+
+        // Determine the direction of the dash (assuming the player faces the direction they are moving)
+        Vector2 dashDirection = new Vector2(transform.localScale.x, 0).normalized;
+        
+        // Apply a force in the direction of the dash
+        rb.velocity = dashDirection * dashSpeed;
     }
 
-    private IEnumerator Invincible() {
-        isDashAvailable = false;
-        transform.Translate(Vector3.forward * 100f);
-        image.sprite = jump_image;
-        yield return new WaitForSeconds(1f);
+    void EndDash()
+    {
+        isDashing = false;
+        rb.velocity = Vector2.zero; // Stop the player after the dash
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -119,6 +144,7 @@ public class movement : MonoBehaviour
         }
         if (other.CompareTag("Enemy")) {
             health -= 10;
+            StartCoroutine(Invincible());
             if(!audioSource.isPlaying) {
                 audioSource.PlayOneShot(hurtSound);
             }
