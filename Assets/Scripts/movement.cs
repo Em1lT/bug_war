@@ -11,6 +11,7 @@ public class movement : MonoBehaviour
     public Score score;
     public float rotationSpeed = 1.0f;
     public Sprite jump_image;
+    public Sprite grenade_image;
     public Sprite run_image;
 
     public AudioSource audioSource;
@@ -26,6 +27,10 @@ public class movement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isDashing = false;
     private float dashTime;
+    public bool invincible = false;
+    public bool grenadeReady = false;
+    public float grenades = 3f;
+    public GameObject grenadePrefab;
 
     private enum AnimationStates {
         idle,
@@ -68,13 +73,30 @@ public class movement : MonoBehaviour
         transform.Translate(movement * speed * magnitude * Time.deltaTime, Space.World);
 
         if(movement != Vector2.zero) {
+            if(grenadeReady) {
+                animator.enabled = true;
+            }
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movement);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        } else {
+            if(grenadeReady) {
+                animator.enabled = false;
+            }
         }
     }
 
+    private IEnumerator ThrowGrenade() {
+        grenadeReady = true;
+        image.sprite = grenade_image;
+        yield return new WaitForSeconds(0.1f);
+        image.sprite = run_image;
+        grenadeReady = false;
+        GameObject grenade = Instantiate(grenadePrefab, transform.position, transform.rotation);
+        grenade.GetComponent<Rigidbody2D>().AddForce(transform.up * 100) ;
+    }   
     private void crouch () {
             if(!isCrouching) {
+                grenadeReady = false;
                 isCrouching = true;
                 image.sprite = jump_image;
                 ChangeAnimationState(AnimationStates.crawl);
@@ -83,7 +105,7 @@ public class movement : MonoBehaviour
                 rotationSpeed = 100f;
                 return;
             }
-            if(isCrouching) {
+            if(isCrouching && !grenadeReady) {
                 isCrouching = false;
                 speed = 5f;
                 image.sprite = run_image;
@@ -93,6 +115,9 @@ public class movement : MonoBehaviour
             }
     }
     private void specialKeysUpdate() {
+        if(Input.GetKeyDown(KeyCode.V)) {
+            StartCoroutine(ThrowGrenade());
+        }
         if(Input.GetKeyDown(KeyCode.X)) {
             crouch();
         }
@@ -112,8 +137,11 @@ public class movement : MonoBehaviour
     }
     private IEnumerator Invincible() {
         // isDashAvailable = false;
+        invincible = true;
         // transform.Translate(Vector3.forward * 100f);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
+
+        invincible = false;
         // image.sprite = jump_image;
     }
     void StartDash()
@@ -141,7 +169,7 @@ public class movement : MonoBehaviour
             spawner.DestroyPoint();
             Destroy(other.gameObject);
         }
-        if (other.CompareTag("Enemy")) {
+        if (other.CompareTag("Enemy") && !invincible) {
             health -= 10;
             StartCoroutine(Invincible());
             if(!audioSource.isPlaying) {
