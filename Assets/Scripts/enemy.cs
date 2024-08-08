@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class enemy : MonoBehaviour
 {
@@ -21,9 +22,9 @@ public class enemy : MonoBehaviour
     public bool isDead = false;
 
     private Animator animator;
+    public BoxCollider2D boxCollider;
 
     private AnimationStates currentState = AnimationStates.bug_movement;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -41,11 +42,12 @@ public class enemy : MonoBehaviour
     }
 
     void Awake() {
-        speed = Random.Range(0.5f, 1.5f);
+        speed = Random.Range(0.5f, 2.5f);
         player = GameObject.FindGameObjectWithTag("Player");
         image = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
         bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
+        boxCollider = gameObject.GetComponent<BoxCollider2D>();
         ChangeAnimationState(AnimationStates.bug_movement);
     }
 
@@ -70,10 +72,11 @@ public class enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator Death () {
+    public IEnumerator Death () {
         // play death animation
         if(!isDead) {
             speed = 0f;
+            boxCollider.enabled = false;
             isDead = true;
             ChangeAnimationState(AnimationStates.death);
             yield return new WaitForSeconds(3f);
@@ -88,7 +91,7 @@ public class enemy : MonoBehaviour
     {
         if (other.CompareTag("Bullet")) {
             // get damage from bullet & reduce health
-            float damage = other.gameObject.GetComponent<bullet>().damage;
+            float damage = other.gameObject.GetComponent<Bullet>().damage;
             health -= damage;
             if(health <= 0) {
                 StartCoroutine(Death());

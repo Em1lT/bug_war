@@ -12,8 +12,11 @@ public class Gun : MonoBehaviour
     public GameObject bullet;
     public GameObject fullMagazine;
     public GameObject emptyMagazine;
+    public GameObject flash;
     public float speed = 1.0f;
     public bool isReloading = false;
+
+    public Vector3 bulletOffset = new Vector3(0.5f, 0f, 0f); 
     public AudioSource audioSource;
     public AudioClip shootSound;
     void Start()
@@ -28,7 +31,9 @@ public class Gun : MonoBehaviour
 
     private void Shoot() {
         audioSource.PlayOneShot(shootSound);
-        Instantiate(bullet, transform.position, transform.rotation);       
+        Vector3 bulletPosition = transform.position + transform.TransformDirection(bulletOffset);
+        Instantiate(bullet, bulletPosition, transform.rotation);       
+        Instantiate(flash, bulletPosition, transform.rotation);
     }
     private void SpawnMagazine() {
         if(magSize > 1) {

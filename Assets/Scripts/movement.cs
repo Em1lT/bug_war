@@ -32,6 +32,8 @@ public class movement : MonoBehaviour
     public float grenades = 3f;
     public GameObject grenadePrefab;
 
+    public float numberOfGrenades = 3;
+
     private enum AnimationStates {
         idle,
         crawl
@@ -86,13 +88,16 @@ public class movement : MonoBehaviour
     }
 
     private IEnumerator ThrowGrenade() {
-        grenadeReady = true;
-        image.sprite = grenade_image;
-        yield return new WaitForSeconds(0.1f);
-        image.sprite = run_image;
-        grenadeReady = false;
-        GameObject grenade = Instantiate(grenadePrefab, transform.position, transform.rotation);
-        grenade.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 1500);
+        if(numberOfGrenades > 0) {
+            numberOfGrenades--;
+            grenadeReady = true;
+            image.sprite = grenade_image;
+            yield return new WaitForSeconds(0.1f);
+            image.sprite = run_image;
+            grenadeReady = false;
+            GameObject grenade = Instantiate(grenadePrefab, transform.position, transform.rotation);
+            grenade.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 1500);
+        }
     }   
     private void crouch () {
             if(!isCrouching) {
