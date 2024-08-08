@@ -18,11 +18,11 @@ public class enemy : MonoBehaviour
     public float rotationSpeed = 1.0f;
 
     private float speed;
-    public bool isDeath = false;
+    public bool isDead = false;
 
     private Animator animator;
 
-    private AnimationStates currentState = AnimationStates.bug_crawl;
+    private AnimationStates currentState = AnimationStates.bug_movement;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,9 @@ public class enemy : MonoBehaviour
     }
 
     private enum AnimationStates {
-        bug_crawl
+        bug_movement,
+        bug_movement_hurt,
+        death
     }
     void ChangeAnimationState(AnimationStates newState) {
         if(currentState == newState) return;
@@ -43,14 +45,15 @@ public class enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         image = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
-        animator.Play(AnimationStates.bug_crawl.ToString());
         bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
+        ChangeAnimationState(AnimationStates.bug_movement);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!isDeath) {        
+        if(!isDead) {        
+            animator.enabled = true;
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position,  Time.deltaTime);
             // transform.forward = Vector3.RotateTowards(transform.position, player.transform.position, speed * Time.deltaTime, 1f);
             // Calculate the direction vector from enemy to player
@@ -67,15 +70,18 @@ public class enemy : MonoBehaviour
         }
     }
 
-    private void Death () {
+    private IEnumerator Death () {
         // play death animation
-        if(!isDeath) {
-        speed = 0f;
-        isDeath = true;
-        image.sprite = death_image;
-        bloodSpawner.SpawnBlood(transform.position);
-        Destroy(gameObject, 5);
-        // destroy enemy
+        if(!isDead) {
+            speed = 0f;
+            isDead = true;
+            ChangeAnimationState(AnimationStates.death);
+            yield return new WaitForSeconds(3f);
+            animator.enabled = false;
+            image.sprite = death_image;
+            bloodSpawner.SpawnBlood(transform.position);
+            Destroy(gameObject, 5);
+            // destroy enemy
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -85,9 +91,10 @@ public class enemy : MonoBehaviour
             float damage = other.gameObject.GetComponent<bullet>().damage;
             health -= damage;
             if(health <= 0) {
-                Death();
+                StartCoroutine(Death());
             } else if (health > 0 && health < 50) {
                 // Switch to bloody sprite
+                ChangeAnimationState(AnimationStates.bug_movement_hurt);
                 image.sprite = bloody_image;
             }
             // destroy bullet. could be moved to bullet script but saves one trigger call

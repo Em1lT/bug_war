@@ -92,7 +92,7 @@ public class movement : MonoBehaviour
         image.sprite = run_image;
         grenadeReady = false;
         GameObject grenade = Instantiate(grenadePrefab, transform.position, transform.rotation);
-        grenade.GetComponent<Rigidbody2D>().AddForce(transform.up * 100) ;
+        grenade.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 1500);
     }   
     private void crouch () {
             if(!isCrouching) {
@@ -168,8 +168,7 @@ public class movement : MonoBehaviour
             score.AddScore(1);
             spawner.DestroyPoint();
             Destroy(other.gameObject);
-        }
-        if (other.CompareTag("Enemy") && !invincible) {
+        } else if (other.CompareTag("Enemy") && !invincible && other.gameObject.GetComponent<enemy>().isDead) {
             health -= 10;
             StartCoroutine(Invincible());
             if(!audioSource.isPlaying) {

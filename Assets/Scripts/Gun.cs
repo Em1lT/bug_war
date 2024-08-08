@@ -9,7 +9,9 @@ public class Gun : MonoBehaviour
     public float magSize = 10f;
 
     public TMP_Text magazineText;
-    public GameObject objectToSpawn;
+    public GameObject bullet;
+    public GameObject fullMagazine;
+    public GameObject emptyMagazine;
     public float speed = 1.0f;
     public bool isReloading = false;
     public AudioSource audioSource;
@@ -26,12 +28,30 @@ public class Gun : MonoBehaviour
 
     private void Shoot() {
         audioSource.PlayOneShot(shootSound);
-        Instantiate(objectToSpawn, transform.position, transform.rotation);       
+        Instantiate(bullet, transform.position, transform.rotation);       
+    }
+    private void SpawnMagazine() {
+        if(magSize > 1) {
+            GameObject mag = Instantiate(
+                fullMagazine,
+                transform.position,
+                Quaternion.Euler(0, 0, Random.Range(0, 360)
+                ));       
+            mag.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 500);
+        } else {
+            GameObject mag = Instantiate(
+                emptyMagazine,
+                transform.position,
+                Quaternion.Euler(0, 0, Random.Range(0, 360)
+                ));       
+            mag.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 500);
+        }
     }
 
     private IEnumerator Reload() {
         isReloading = true;
         yield return new WaitForSeconds(1f);
+        SpawnMagazine();
         magSize = 10;
         isReloading = false;
         magazineText.text = magSize.ToString();
@@ -40,10 +60,10 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (Input.GetKeyDown(KeyCode.Z) && !isReloading) {
             StartCoroutine(Reload());
         }
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.Space) && !isReloading) {
             if(magSize <= 0) {
                 StartCoroutine(Reload());
                 return;

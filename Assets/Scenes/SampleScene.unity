@@ -17025,7 +17025,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magSize: 10
   magazineText: {fileID: 446836515}
-  objectToSpawn: {fileID: 6532921896503305545, guid: 7d9b4de4f6b5041049cc4693f6e16eda, type: 3}
+  bullet: {fileID: 6532921896503305545, guid: 7d9b4de4f6b5041049cc4693f6e16eda, type: 3}
+  fullMagazine: {fileID: 5674496518503697207, guid: c2b23deecb38240b38bd283ca4dc5ecc, type: 3}
+  emptyMagazine: {fileID: 5674496518503697207, guid: c2b23deecb38240b38bd283ca4dc5ecc, type: 3}
   speed: 1
   isReloading: 0
   audioSource: {fileID: 0}
