@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Bullet
   - BloodSpawner
+  - GrenadeBox
   layers:
   - Default
   - TransparentFX

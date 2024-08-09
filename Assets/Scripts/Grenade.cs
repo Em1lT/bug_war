@@ -16,6 +16,10 @@ public class Grenade : MonoBehaviour
     }
 
     private IEnumerator Explode() {
+        yield return new WaitForSeconds(.2f);
+        if(rb.velocity.magnitude > 0) {
+            rb.velocity = Vector3.zero;
+        }
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
         Instantiate(explosion, transform.position, transform.rotation);
@@ -24,8 +28,8 @@ public class Grenade : MonoBehaviour
     void Update()
     {
         // slow velocity down if it's moving
-        if(rb.velocity.magnitude > 0) {
-            rb.velocity = rb.velocity * 0.99f;
-        } 
+        // if(rb.velocity.magnitude > 0) {
+        //     rb.velocity = rb.velocity * 0.99f;
+        // } 
     }
 }

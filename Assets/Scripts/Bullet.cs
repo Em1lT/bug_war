@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D rb;
     
     public float speed = 1f;
-    public float damage = 10f;
+    public float damage = 30f;
 
     void Start()
     {

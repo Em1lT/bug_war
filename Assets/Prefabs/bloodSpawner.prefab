@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6099040737178950964}
   m_Layer: 0
   m_Name: bloodSpawner
-  m_TagString: Untagged
+  m_TagString: BloodSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0198b803378427fa18204101352212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawns: []
+  objectToSpawns:
+  - {fileID: 8902799187505617956, guid: 387cc1d1e062748588bd434b2df140fb, type: 3}
   spawnedObjects: []
   MaxRenderedObjects: 10

@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3270209238758051022}
-  - component: {fileID: -4878307728206316152}
+  - component: {fileID: 5240837517724018901}
   m_Layer: 0
-  m_Name: PointSpawner
-  m_TagString: Respawn
+  m_Name: AmmoSpawner
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,13 +26,13 @@ Transform:
   m_GameObject: {fileID: 3270209238758051016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.88052106, y: 0.6148673, z: -0.012432983}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4878307728206316152
+--- !u!114 &5240837517724018901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,15 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3270209238758051016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 711f43b97816e48c5a4d8295e6943066, type: 3}
+  m_Script: {fileID: 11500000, guid: 922b12f3722594c27b89d7a7dce679f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnRate: 30
+  repeatRate: 30
+  minPosition: {x: -5, y: 5, z: 0}
+  maxPosition: {x: -5, y: 5, z: 0}
   objectToSpawns:
-  - {fileID: 3324124229040599885, guid: 9249d3255a0c1471bb0d10d3802fc5f9, type: 3}
-  spawnRate: 3
-  repeatRate: 1
-  currentPoints: 0
-  respawnedEnemies: 0
-  minPosition: {x: -15, y: -15, z: 0}
-  maxPosition: {x: 15, y: 15, z: 0}
-  gameManager: {fileID: 2746940923519266707, guid: f880113cca07146bb94896ad13766ea6, type: 3}
+  - {fileID: 5829054899568939544, guid: f0824f82fb5ab468ca268a007a645902, type: 3}

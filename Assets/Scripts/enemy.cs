@@ -7,7 +7,9 @@ public class enemy : MonoBehaviour
 {
 
     public GameObject player;
+    public movement playerScript;
     public BloodSpawner bloodSpawner;
+    public PointSpawner pointSpawner;
 
     public float health = 100f;
 
@@ -44,9 +46,11 @@ public class enemy : MonoBehaviour
     void Awake() {
         speed = Random.Range(0.5f, 2.5f);
         player = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<movement>();
         image = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
         bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
+        pointSpawner = GameObject.FindGameObjectWithTag("Respawn").GetComponent<PointSpawner>();
         boxCollider = gameObject.GetComponent<BoxCollider2D>();
         ChangeAnimationState(AnimationStates.bug_movement);
     }
@@ -54,7 +58,7 @@ public class enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isDead) {        
+        if(!isDead && !playerScript.isDead) {        
             animator.enabled = true;
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position,  Time.deltaTime);
             // transform.forward = Vector3.RotateTowards(transform.position, player.transform.position, speed * Time.deltaTime, 1f);
@@ -77,6 +81,7 @@ public class enemy : MonoBehaviour
         if(!isDead) {
             speed = 0f;
             boxCollider.enabled = false;
+            pointSpawner.DestroyPoint();
             isDead = true;
             ChangeAnimationState(AnimationStates.death);
             yield return new WaitForSeconds(3f);

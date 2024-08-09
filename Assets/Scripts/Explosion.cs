@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Unity.VisualScripting;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,20 +10,31 @@ public class Explosion : MonoBehaviour
 {
     // Start is called before the first frame update
     private BoxCollider2D boxCollider;
+    public AudioSource audioSource;
+    public AudioClip explosionSound;
+    public Rigidbody2D rb;
+    public CircleCollider2D bc;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<CircleCollider2D>();
         StartCoroutine(Explode());
     }
 
     private IEnumerator Explode() {
+        audioSource.PlayOneShot(explosionSound);
         yield return new WaitForSeconds(0.1f);
+        bc.enabled = false;
+        bc.isTrigger = false;
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // transform.rotation = Quaternion.Euler(0, 0, Time.deltaTime * 10f);
+        transform.rotation = Quaternion.Euler(0, 0, 10f);
     }
 
     void OnTriggerEnter2D(Collider2D other) {

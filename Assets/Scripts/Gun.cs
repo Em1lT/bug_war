@@ -13,12 +13,19 @@ public class Gun : MonoBehaviour
     public GameObject fullMagazine;
     public GameObject emptyMagazine;
     public GameObject flash;
-    public float speed = 1.0f;
+    public float speed = 10.0f;
     public bool isReloading = false;
 
     public Vector3 bulletOffset = new Vector3(0.5f, 0f, 0f); 
     public AudioSource audioSource;
     public AudioClip shootSound;
+    public AudioClip reloadSound;
+    public enum Sounds {
+        shootSound,
+        reloadSound
+
+
+    }
     void Start()
     {
     }
@@ -30,7 +37,7 @@ public class Gun : MonoBehaviour
     }
 
     private void Shoot() {
-        audioSource.PlayOneShot(shootSound);
+        playSound(Sounds.shootSound);
         Vector3 bulletPosition = transform.position + transform.TransformDirection(bulletOffset);
         Instantiate(bullet, bulletPosition, transform.rotation);       
         Instantiate(flash, bulletPosition, transform.rotation);
@@ -52,10 +59,22 @@ public class Gun : MonoBehaviour
             mag.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 500);
         }
     }
+    // TODO: create universal sound board
+    private void playSound (Sounds sound) {
+        switch(sound) {
+            case Sounds.shootSound:
+                audioSource.PlayOneShot(shootSound);
+                break;
+            case Sounds.reloadSound:
+                audioSource.PlayOneShot(reloadSound);
+                break;
+        }
+    }
 
     private IEnumerator Reload() {
         isReloading = true;
-        yield return new WaitForSeconds(1f);
+        playSound(Sounds.reloadSound);
+        yield return new WaitForSeconds(1.2f);
         SpawnMagazine();
         magSize = 10;
         isReloading = false;

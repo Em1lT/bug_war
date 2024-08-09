@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class movement : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class movement : MonoBehaviour
     public Sprite jump_image;
     public Sprite grenade_image;
     public Sprite run_image;
+
+    public TMP_Text grenadesText;
 
     public AudioSource audioSource;
 
@@ -29,10 +32,13 @@ public class movement : MonoBehaviour
     private float dashTime;
     public bool invincible = false;
     public bool grenadeReady = false;
-    public float grenades = 3f;
     public GameObject grenadePrefab;
 
     public float numberOfGrenades = 3;
+    public bool isDead = false;
+
+    public BloodSpawner bloodSpawner;
+    private GameManager gameManager;
 
     private enum AnimationStates {
         idle,
@@ -50,8 +56,11 @@ public class movement : MonoBehaviour
     void Awake() {
         image = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         animator.Play(AnimationStates.idle.ToString());
         audioSource = GetComponent<AudioSource>();
+        bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
     }
     void Start()
     {
@@ -61,8 +70,9 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    movementUpdate();
-    specialKeysUpdate();
+        if(isDead) return;
+        movementUpdate();
+        specialKeysUpdate();
     }
     private void movementUpdate() {
         float horizontalAxis = Input.GetAxis("Horizontal");
@@ -90,13 +100,14 @@ public class movement : MonoBehaviour
     private IEnumerator ThrowGrenade() {
         if(numberOfGrenades > 0) {
             numberOfGrenades--;
+            grenadesText.text = numberOfGrenades.ToString();
             grenadeReady = true;
             image.sprite = grenade_image;
             yield return new WaitForSeconds(0.1f);
             image.sprite = run_image;
             grenadeReady = false;
             GameObject grenade = Instantiate(grenadePrefab, transform.position, transform.rotation);
-            grenade.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 1500);
+            grenade.GetComponent<Rigidbody2D>().AddRelativeForce(Vector3.up * 1000);
         }
     }   
     private void crouch () {
@@ -126,10 +137,11 @@ public class movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.X)) {
             crouch();
         }
-       if (Input.GetKeyDown(KeyCode.C) && !isDashing)
-        {
-            StartDash();
-        }
+       // if (Input.GetKeyDown(KeyCode.C) && !isDashing)
+       //  {
+       //      if(isCrouching) return;
+       //      StartDash();
+       //  }
 
         if (isDashing)
         {
@@ -144,7 +156,7 @@ public class movement : MonoBehaviour
         // isDashAvailable = false;
         invincible = true;
         // transform.Translate(Vector3.forward * 100f);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
 
         invincible = false;
         // image.sprite = jump_image;
@@ -153,12 +165,7 @@ public class movement : MonoBehaviour
     {
         isDashing = true;
         dashTime = dashDuration;
-
-        // Determine the direction of the dash (assuming the player faces the direction they are moving)
-        Vector2 dashDirection = new Vector2(transform.localScale.x, 0).normalized;
-        
-        // Apply a force in the direction of the dash
-        rb.velocity = dashDirection * dashSpeed;
+        rb.velocity = Vector3.forward * dashSpeed;
     }
 
     void EndDash()
@@ -166,20 +173,37 @@ public class movement : MonoBehaviour
         isDashing = false;
         rb.velocity = Vector2.zero; // Stop the player after the dash
     }
+    void Death()
+    {
+        isDead = true;
+        bloodSpawner.SpawnBlood(transform.position);
+        gameManager.GameOver();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(isDead) return;
         if (other.CompareTag("Point")) {
             score.AddScore(1);
             spawner.DestroyPoint();
             Destroy(other.gameObject);
-        } else if (other.CompareTag("Enemy") && !invincible && other.gameObject.GetComponent<enemy>().isDead) {
-            health -= 10;
+        } else if (other.CompareTag("Enemy") && !invincible && !other.gameObject.GetComponent<enemy>().isDead) {
+            health -= 100;
             StartCoroutine(Invincible());
             if(!audioSource.isPlaying) {
                 audioSource.PlayOneShot(hurtSound);
             }
+            if(health <= 0) {
+                Death();
+            }
             Destroy(other.gameObject);
         }
+        if(other.CompareTag("GrenadeBox")) {
+            numberOfGrenades += 3;
+            grenadesText.text = numberOfGrenades.ToString();
+            Destroy(other.gameObject);
+            
+        }
+
     }
 }
