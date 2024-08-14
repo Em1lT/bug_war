@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2537619367480737859
@@ -99,6 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cc44b357e274aa3981865eec507991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variant1: {fileID: -1479964955, guid: a981bb0b815e3439bac8c0d459254c25, type: 3}
+  variant2: {fileID: 1684959112, guid: a981bb0b815e3439bac8c0d459254c25, type: 3}
+  variant3: {fileID: 1244786646, guid: a981bb0b815e3439bac8c0d459254c25, type: 3}
+  variant4: {fileID: 2060432118, guid: a981bb0b815e3439bac8c0d459254c25, type: 3}
 --- !u!50 &8100804527388150464
 Rigidbody2D:
   serializedVersion: 4
