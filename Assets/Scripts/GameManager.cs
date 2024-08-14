@@ -14,13 +14,13 @@ public class GameManager : MonoBehaviour
     public TMP_Text waveText;
     void Start()
     {
-        waveText.text = "wssave: " + waveNumber.ToString();
+        waveText.text = "Wave: " + waveNumber.ToString();
         SpawnNewWave();
     }
 
     public void SpawnNewWave() {
         waveNumber++;
-        waveText.text = "wave: " + waveNumber.ToString();
+        waveText.text = "Wave: " + waveNumber.ToString();
         Instantiate(enemyWave, new Vector3(0, 0, 0), Quaternion.identity);
     }
 

@@ -23,9 +23,9 @@ public class enemy : MonoBehaviour
     private float speed;
     public bool isDead = false;
 
-    private Animator animator;
     public BoxCollider2D boxCollider;
 
+    private Animator animator;
     private AnimationStates currentState = AnimationStates.bug_movement;
     // Start is called before the first frame update
     void Start()

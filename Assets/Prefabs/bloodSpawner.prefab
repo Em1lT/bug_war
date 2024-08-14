@@ -47,4 +47,4 @@ MonoBehaviour:
   objectToSpawns:
   - {fileID: 8902799187505617956, guid: 387cc1d1e062748588bd434b2df140fb, type: 3}
   spawnedObjects: []
-  MaxRenderedObjects: 10
+  MaxRenderedObjects: 1

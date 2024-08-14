@@ -53,7 +53,6 @@ public class PointSpawner : MonoBehaviour
         currentPoints--;
         if(respawnedEnemies >= maxPoints && currentPoints == 0) {
             // round is over. next round 
-            Debug.Log("round over");
             gameManager.SpawnNewWave();
             Destroy(gameObject);
         }

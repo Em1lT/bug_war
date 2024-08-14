@@ -50,6 +50,6 @@ MonoBehaviour:
   repeatRate: 1
   currentPoints: 0
   respawnedEnemies: 0
-  minPosition: {x: -15, y: -15, z: 0}
-  maxPosition: {x: 15, y: 15, z: 0}
+  minPosition: {x: -5, y: -5, z: 0}
+  maxPosition: {x: 5, y: 5, z: 0}
   gameManager: {fileID: 2746940923519266707, guid: f880113cca07146bb94896ad13766ea6, type: 3}

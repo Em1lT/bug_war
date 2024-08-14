@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd916cee76a76475fb4e324bd86d97d2
+guid: a981bb0b815e3439bac8c0d459254c25
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,8 +122,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 100
-        height: 100
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c96d05573af1640558cce538ffe35d4f
-      internalID: -321443407
+      spriteID: 46169f3e4b63b4f2e9490c3034eaa568
+      internalID: -1479964955
       vertices: []
       indices: 
       edges: []
@@ -141,10 +141,10 @@ TextureImporter:
       name: flower_1
       rect:
         serializedVersion: 2
-        x: 100
+        x: 32
         y: 0
-        width: 100
-        height: 100
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a1c7f3e3f3684cf59d9ef17c8d60b48
-      internalID: -1426671590
+      spriteID: 6e06a8fa313cb4d9d8773da6c0f9ff5b
+      internalID: 1684959112
       vertices: []
       indices: 
       edges: []
@@ -162,10 +162,10 @@ TextureImporter:
       name: flower_2
       rect:
         serializedVersion: 2
-        x: 200
+        x: 64
         y: 0
-        width: 100
-        height: 100
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45c6a75dd2ec74eb0ad2f4914a19ad2c
-      internalID: 942864853
+      spriteID: ec77ed52b65a14d2a882e53f1828d01c
+      internalID: 1244786646
       vertices: []
       indices: 
       edges: []
@@ -183,10 +183,10 @@ TextureImporter:
       name: flower_3
       rect:
         serializedVersion: 2
-        x: 300
+        x: 96
         y: 0
-        width: 100
-        height: 100
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4aeb7a6903e3e44cc8889f48434711ed
-      internalID: -740329332
+      spriteID: 635db36c7e0d1479f9afa5b07ac17a0b
+      internalID: 508784245
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
       name: flower_4
       rect:
         serializedVersion: 2
-        x: 400
+        x: 128
         y: 0
-        width: 100
-        height: 100
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,8 +215,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1ca66f6d001e4ed68308ebbd9b23b7c
-      internalID: -204435225
+      spriteID: 551c9d0bc084b4749b11d37ee164f585
+      internalID: 1775392030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flower_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abedbc4c345e34bdab6ee97bde046780
+      internalID: 2060432118
       vertices: []
       indices: 
       edges: []
@@ -232,11 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      flower_1: -1426671590
-      flower_3: -740329332
-      flower_0: -321443407
-      flower_4: -204435225
-      flower_2: 942864853
+      flower_1: 1684959112
+      flower_3: 508784245
+      flower_5: 2060432118
+      flower_0: -1479964955
+      flower_4: 1775392030
+      flower_2: 1244786646
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
