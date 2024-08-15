@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -58,7 +57,7 @@ public class movement : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        animator.Play(AnimationStates.idle.ToString());
+        // animator.Play(AnimationStates.idle.ToString());
         audioSource = GetComponent<AudioSource>();
         bloodSpawner = GameObject.FindGameObjectWithTag("BloodSpawner").GetComponent<BloodSpawner>();
     }
@@ -111,17 +110,21 @@ public class movement : MonoBehaviour
         }
     }   
     private void crouch () {
+        if(!grenadeReady) {
+            Debug.Log("crouch" + isCrouching);
             if(!isCrouching) {
+                Debug.Log("crouch");
                 grenadeReady = false;
                 isCrouching = true;
-                image.sprite = jump_image;
+                // image.sprite = jump_image;
                 ChangeAnimationState(AnimationStates.crawl);
                 animator.enabled = false;
                 speed = 2f;
                 rotationSpeed = 100f;
                 return;
             }
-            if(isCrouching && !grenadeReady) {
+            if(isCrouching) {
+                Debug.Log("standup");
                 isCrouching = false;
                 speed = 5f;
                 image.sprite = run_image;
@@ -129,6 +132,7 @@ public class movement : MonoBehaviour
                 rotationSpeed = 500f;
                 return;
             }
+        }
     }
     private void specialKeysUpdate() {
         if(Input.GetKeyDown(KeyCode.V)) {

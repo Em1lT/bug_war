@@ -26,12 +26,11 @@ public class PointSpawner : MonoBehaviour
     }
 
     IEnumerator SpawnEnemy(Vector3 location) {
-        GameObject hole = Instantiate(
+        Instantiate(
             holePrefab,
             location,
             Quaternion.Euler(0, 0, Random.Range(0, 360))
         );
-        Destroy(hole, 4f);
         yield return new WaitForSeconds(3f);
         Instantiate(
             objectToSpawns[Random.Range(0, objectToSpawns.Length)],
