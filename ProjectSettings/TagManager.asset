@@ -10,6 +10,7 @@ TagManager:
   - BloodSpawner
   - GrenadeBox
   - Grenade
+  - Missile
   layers:
   - Default
   - TransparentFX

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToSpawns:
   - {fileID: 3324124229040599885, guid: 9249d3255a0c1471bb0d10d3802fc5f9, type: 3}
+  - {fileID: 1559411818330364129, guid: c328b6c5fae2d4a3780d7a42867592aa, type: 3}
   spawnRate: 3
   repeatRate: 1
   currentPoints: 0
