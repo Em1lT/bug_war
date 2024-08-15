@@ -53,3 +53,4 @@ MonoBehaviour:
   minPosition: {x: -5, y: -5, z: 0}
   maxPosition: {x: 5, y: 5, z: 0}
   gameManager: {fileID: 2746940923519266707, guid: f880113cca07146bb94896ad13766ea6, type: 3}
+  holePrefab: {fileID: 2209240816911834085, guid: 6c1d42ac0cf514ffea85f1ca1f64a415, type: 3}

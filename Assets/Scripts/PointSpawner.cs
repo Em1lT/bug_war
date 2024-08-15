@@ -14,6 +14,8 @@ public class PointSpawner : MonoBehaviour
     public Vector3 minPosition;
     public Vector3 maxPosition;
     public GameManager gameManager;
+    public GameObject holePrefab;
+
     private float maxPoints = 1f;
     void Start()
     {
@@ -23,6 +25,20 @@ public class PointSpawner : MonoBehaviour
         respawnedEnemies = 0;
     }
 
+    IEnumerator SpawnEnemy(Vector3 location) {
+        GameObject hole = Instantiate(
+            holePrefab,
+            location,
+            Quaternion.Euler(0, 0, Random.Range(0, 360))
+        );
+        Destroy(hole, 4f);
+        yield return new WaitForSeconds(3f);
+        Instantiate(
+            objectToSpawns[Random.Range(0, objectToSpawns.Length)],
+            location,
+            Quaternion.Euler(0, 0, Random.Range(0, 360))
+        );
+    }
     // Update is called once per frame
     void Update()
     {
@@ -30,22 +46,17 @@ public class PointSpawner : MonoBehaviour
 
     void SpawnPoints()
     {
-    if( respawnedEnemies < maxPoints) {
-        currentPoints++;
-        respawnedEnemies++;
-        Vector3 randomPosition = new Vector3(
-            Random.Range(minPosition.x, maxPosition.x),
-            Random.Range(minPosition.y, maxPosition.y),
-            Random.Range(minPosition.z, maxPosition.z)
-        );
-        // get random object to spawn
-        GameObject gameObject = Instantiate(
-            objectToSpawns[Random.Range(0, objectToSpawns.Length)],
-            randomPosition,
-            Quaternion.Euler(0, 0, Random.Range(0, 360))
-        );
-        // gameObjects.Add(gameObject);
-    }
+        if( respawnedEnemies < maxPoints) {
+            currentPoints++;
+            respawnedEnemies++;
+            Vector3 randomPosition = new Vector3(
+                Random.Range(minPosition.x, maxPosition.x),
+                Random.Range(minPosition.y, maxPosition.y),
+                Random.Range(minPosition.z, maxPosition.z)
+            );
+            // get random object to spawn
+            StartCoroutine(SpawnEnemy(randomPosition));
+        }
     }
 
     public void DestroyPoint()
