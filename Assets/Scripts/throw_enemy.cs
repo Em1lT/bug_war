@@ -63,7 +63,7 @@ public class throw_enemy : MonoBehaviour
     }
 
     void ThrowMissile () {
-
+        if(isDead) return;
         StartCoroutine(Missile());
 
     }
@@ -82,7 +82,6 @@ public class throw_enemy : MonoBehaviour
                 // transform.forward = Vector3.RotateTowards(transform.position, player.transform.position, speed * Time.deltaTime, 1f);
                 // Calculate the direction vector from enemy to player
                 Vector3 direction = player.transform.position - transform.position;
-
                 // Normalize the direction vector to get only the direction without affecting the magnitude
                 direction.Normalize();
 
@@ -99,11 +98,11 @@ public class throw_enemy : MonoBehaviour
         // play death animation
         if(!isDead) {
             speed = 0f;
-            boxCollider.enabled = false;
+            animator.enabled = false;
             pointSpawner.DestroyPoint();
             isDead = true;
             yield return new WaitForSeconds(3f);
-            animator.enabled = false;
+            boxCollider.enabled = false;
             bloodSpawner.SpawnBlood(transform.position);
             Destroy(gameObject, 5);
         }

@@ -201,6 +201,16 @@ public class movement : MonoBehaviour
                 Death();
             }
             Destroy(other.gameObject);
+        } else if(other.CompareTag("Missile")) {
+            health -= 100;
+            StartCoroutine(Invincible());
+            if(!audioSource.isPlaying) {
+                audioSource.PlayOneShot(hurtSound);
+            }
+            if(health <= 0) {
+                Death();
+            }
+            Destroy(other.gameObject);
         }
         if(other.CompareTag("GrenadeBox")) {
             numberOfGrenades += 3;

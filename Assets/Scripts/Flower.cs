@@ -47,7 +47,6 @@ public class Flower : MonoBehaviour
         float random = Random.Range(0.5f, 2.5f);
         int randomVariant = Random.Range(0, 4);
         int randomRotation = Random.Range(1, 3);
-        Debug.Log(randomRotation);
         switch(randomRotation) {
             case 1:
                 transform.Rotate(0f, 180f, 0f);
